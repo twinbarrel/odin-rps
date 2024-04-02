@@ -8,6 +8,17 @@ function getComputerChoice() {
     return choice;
 }
 
+let rock = document.querySelector(".rock");
+let paper = document.querySelector(".paper");
+let scissors = document.querySelector(".scissors");
+
+rock.addEventListener("click", () => playRound("rock",getComputerChoice()));
+paper.addEventListener("click", () => playRound("paper",getComputerChoice()));
+scissors.addEventListener("click", () => playRound("scissors",getComputerChoice()));
+
+// Refactor so consoleLog to DOM
+// At the end of it, run a function that updates the score of DOM object plaSco and comSco
+// Within the updateScore - run checkEnd()
 function playRound(playerSelection, computerSelection) {
     // make case insensitive
     // if the same - return Draw 
@@ -18,56 +29,111 @@ function playRound(playerSelection, computerSelection) {
     // then return winner
     let plaSel = playerSelection.toLowerCase();
     let comSel = computerSelection.toLowerCase();
+    let results = document.querySelector(".results");
+    let result = document.createElement("div");
+    let outcome = '';
     if (plaSel == comSel) {
-        console.log(`You drew! ${plaSel} matches ${comSel}!`);
-        return "DRAW";
+        result.textContent = `You drew! ${plaSel} matches ${comSel}!`;
+        outcome = "DRAW";
     }
     else if (
         (plaSel == "rock" && comSel == "scissors") || 
         (plaSel == "scissors" && comSel == "paper") || 
         (plaSel == "paper" && comSel == "rock")) {
-        console.log(`You won! ${plaSel} beats ${comSel}!`);
-        return "WIN";
+        result.textContent = `You won! ${plaSel} beats ${comSel}!`;
+        outcome = "WIN";
     }
     else {
-        console.log(`You lost! ${plaSel} loses to ${comSel}!`);
-        return "LOSS";
+        result.textContent = `You lost! ${plaSel} loses to ${comSel}!`;
+        outcome = "LOSS";
     }
+    results.appendChild(result);
+
+    updateScore(outcome);
+
+    
+    
+    
+    return outcome;
 }
 
-const playerSelection = "rock";
-const computerSelection = getComputerChoice();
+function updateScore(outcome) {
+    let plaSco = document.querySelector(".plaScore");
+    let comSco = document.querySelector(".comScore");
 
-console.log(playRound(playerSelection,computerSelection));
-
-function playGame() {
-    // init scores
-    let plaSco = 0;
-    let comSco = 0;
-    let round = 5;
-
-    // for each round,
-    // prompt user for input
-    // playRound
-    // change scores
-    for (let i = 1; i <= round; i++) {
-        let plaCho = prompt("Choose:")
-        // error handling if not one of those choices - opt.
-        let comCho = getComputerChoice();
-        let result = playRound(plaCho, comCho);
-        if (result == "WIN") {
-            plaSco++;
-        } else if (result == "LOSS") {
-            comSco++;
-        }
-
-        console.log(`The current score is ${plaSco} to ${comSco}!`)
+    if (outcome == "WIN") {
+        plaSco.textContent = parseInt(plaSco.textContent) + 1;
+    } 
+    else if (outcome == "LOSS") {
+        comSco.textContent = parseInt(comSco.textContent) + 1;
     }
-    // declare overall score
-    console.log(`The final score is ${plaSco} to ${comSco}!`)
+    // checkWin(plaSco.textContent,comSco.textContent);
 }
 
-playGame();
+function checkWin(player, computer) {
+    
+}
+
+// function playRound(playerSelection, computerSelection) {
+//     // make case insensitive
+//     // if the same - return Draw 
+//     // if different, three cases
+//     // Rock vs. Scissors or Scissors vs. Paper or Paper vs. Rock - you Win
+//     // Scissors vs. Rock or Paper vs. Scissors or Rock vs. Paper - you Lose
+//     // for each case - display message
+//     // then return winner
+//     let plaSel = playerSelection.toLowerCase();
+//     let comSel = computerSelection.toLowerCase();
+//     if (plaSel == comSel) {
+//         console.log(`You drew! ${plaSel} matches ${comSel}!`);
+//         return "DRAW";
+//     }
+//     else if (
+//         (plaSel == "rock" && comSel == "scissors") || 
+//         (plaSel == "scissors" && comSel == "paper") || 
+//         (plaSel == "paper" && comSel == "rock")) {
+//         console.log(`You won! ${plaSel} beats ${comSel}!`);
+//         return "WIN";
+//     }
+//     else {
+//         console.log(`You lost! ${plaSel} loses to ${comSel}!`);
+//         return "LOSS";
+//     }
+// }
+
+// const playerSelection = "rock";
+// const computerSelection = getComputerChoice();
+
+// console.log(playRound(playerSelection,computerSelection));
+
+// function playGame() {
+//     // init scores
+//     let plaSco = 0;
+//     let comSco = 0;
+//     let round = 5;
+
+//     // for each round,
+//     // prompt user for input
+//     // playRound
+//     // change scores
+//     for (let i = 1; i <= round; i++) {
+//         let plaCho = prompt("Choose:")
+//         // error handling if not one of those choices - opt.
+//         let comCho = getComputerChoice();
+//         let result = playRound(plaCho, comCho);
+//         if (result == "WIN") {
+//             plaSco++;
+//         } else if (result == "LOSS") {
+//             comSco++;
+//         }
+
+//         console.log(`The current score is ${plaSco} to ${comSco}!`)
+//     }
+//     // declare overall score
+//     console.log(`The final score is ${plaSco} to ${comSco}!`)
+// }
+
+// playGame();
 
 
 
